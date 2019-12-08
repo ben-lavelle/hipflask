@@ -22,6 +22,12 @@ def index():
     sortedPosts = sorted(posts, key=post_unique_chars)
     return render_template('index.html', title='Home', user=user, posts=sortedPosts)
 
+@app.route('/xmas')
+def xmas():
+    user = {'username': 'bjml'}
+    greeting = "Merry Christmas"
+    return render_template('xmas.html', user=user, greeting=greeting)
+
 def post_length(blogPost):
     return len(blogPost['body'])
 def post_unique_chars(blogPost):
