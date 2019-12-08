@@ -19,4 +19,11 @@ def index():
             'body': "I had a little lamb."
         }
     ]
-    return render_template('index.html', title='Home', user=user, posts=posts)
+    sortedPosts = sorted(posts, key=post_unique_chars)
+    return render_template('index.html', title='Home', user=user, posts=sortedPosts)
+
+def post_length(blogPost):
+    return len(blogPost['body'])
+def post_unique_chars(blogPost):
+    uniqueChars = set(blogPost['body'])
+    return len(uniqueChars)
