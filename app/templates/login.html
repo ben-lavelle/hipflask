@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Sign In</h1>
+    <form action="" method="POST" novalidate>
+        <!--
+            action: URL to sumit form info (default here)
+            method: POST/GET (GET adds fields to URL)
+            novalidate: leaves val to server (flask)
+         -->
+        {{ form.hidden_tag() }} <!-- Protects against CSRF attack --> 
+        <p>
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}
+        </p>
+        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}

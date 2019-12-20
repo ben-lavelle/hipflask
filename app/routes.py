@@ -1,5 +1,6 @@
 from flask import render_template
 from app import app
+from app.forms import LoginForm
 
 @app.route('/')
 @app.route('/index')
@@ -27,6 +28,11 @@ def xmas():
     user = {'username': 'bjml'}
     greeting = "Merry Christmas"
     return render_template('xmas.html', user=user, greeting=greeting)
+
+@app.route('/login')
+def login():
+    form = LoginForm()
+    return render_template('login.html', title='Sign In', form=form)
 
 def post_length(blogPost):
     return len(blogPost['body'])
