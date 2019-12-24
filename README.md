@@ -14,3 +14,9 @@ flask db upgrade
 ```
 
 to auto-build the migration script, then apply it to migrate the database.
+
+## Security
+
+For safe password storage and logins we use Pallets' [Werkzeug/security](https://werkzeug.palletsprojects.com/en/0.16.x/utils/#module-werkzeug.security) with [flask-login](https://flask-login.readthedocs.io/en/latest/) for session management.
+
+Werkzeug hashes passwords using [PBKDF2](https://en.wikipedia.org/wiki/PBKDF2) to [key-stretch](https://en.wikipedia.org/wiki/Key_stretching) hashing using SHA256, over 150,000 iterations.
