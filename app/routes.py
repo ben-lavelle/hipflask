@@ -10,7 +10,6 @@ from werkzeug.urls import url_parse
 @app.route('/index')
 @login_required
 def index():
-    user = {'username': 'bjml'}
     posts = [
         {
             'author': {'username': 'john'},
@@ -26,14 +25,13 @@ def index():
         }
     ]
     sortedPosts = sorted(posts, key=post_unique_chars)
-    return render_template('index.html', title='Home', user=user, posts=sortedPosts)
+    return render_template('index.html', title='Home', posts=sortedPosts)
 
 
 @app.route('/xmas')
 def xmas():
-    user = {'username': 'bjml'}
     greeting = "Merry Christmas"
-    return render_template('xmas.html', user=user, greeting=greeting)
+    return render_template('xmas.html', greeting=greeting)
 
 
 @app.route('/login', methods=['GET', 'POST'])
