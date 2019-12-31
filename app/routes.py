@@ -74,6 +74,19 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
+@app.route('/user/<username>')
+@login_required
+def user(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    posts = [
+        {'author': user,
+            'body': "Example post #1 to fill space."},
+        {'author': user,
+            'body': "Wow another example post (#2) filling more space."}
+    ]
+    return render_template('user.html', user=user, posts=posts)
+
+
 def post_length(blogPost):
     return len(blogPost['body'])
 
