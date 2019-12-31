@@ -1,6 +1,8 @@
 # hipflask
 
-Trial small Flask webapp to travel with.
+A small, experimental [Flask](https://palletsprojects.com/p/flask/) webapp to travel with.
+
+> *Built following guidance by [Miguel Grinberg](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world), 2017/18.*
 
 ## Storage
 
