@@ -1,0 +1,5 @@
+{% if user.last_seen %}
+    <p><b>Last spotted:</b> {{ user.last_seen }}</p>
+{% else %}
+    <p><i>No recorded sightings.</i></p>
+{% endif %}
