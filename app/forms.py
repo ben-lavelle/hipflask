@@ -39,4 +39,20 @@ class EditProfileForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     about_me = TextAreaField('About me', validators=[Length(min=0, max=140)])
     submit = SubmitField('Submit changes')
-    # No username validation here is intentional; patch later
+
+    def __init__(self, original_username, *args, **kwargs):
+        # Override inheritance of class __init__ with...
+        super(EditProfileForm, self).__init__(*args, **kwargs)
+        # All the usual stuff...
+        self.original_username = original_username
+        # Plus extra input var set to env.
+
+        # This is now called to augment EditProfileForm() with
+        # form = EditProfileForm(original_username=current_user.username)
+
+    def validate_username(self, username):
+        if username.data != self.original_username:
+            user = User.query.filter_by(username=self.username.data).first()
+            if user is not None:
+                raise ValidationError(
+                    "That username is being used by someone else.")

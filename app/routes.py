@@ -100,7 +100,7 @@ def user(username):
 @app.route('/edit-profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
-    form = EditProfileForm()
+    form = EditProfileForm(original_username=current_user.username)
     if form.validate_on_submit():
         # If validation passes, update db with form contents (POST)
         current_user.username = form.username.data
