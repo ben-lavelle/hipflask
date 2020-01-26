@@ -7,6 +7,15 @@ from hashlib import md5
 from urllib.parse import urlencode
 
 
+followers = db.Table(
+    'followers',
+    db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
+    # Note this is created as an aux table without a model class
+    # When called, the .c. accesses a column (needed without model)
+)
+
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
@@ -15,6 +24,16 @@ class User(UserMixin, db.Model):
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
+    followed = db.relationship(
+        'User', secondary=followers,
+        primaryjoin=(followers.c.follower_id == id),
+        # Link of LHS (parent) with association table (secondary)
+        secondaryjoin=(followers.c.followed_id == id),
+        # Link of RHS ('User') with association table
+        backref=db.backref('followers', lazy='dynamic'), lazy='dynamic'
+        # Backref is the inverse problem: find the followers of the RHS entity
+        # Dynamic: do not run query until specifically requested
+    )
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
