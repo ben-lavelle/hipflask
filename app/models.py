@@ -47,6 +47,20 @@ class User(UserMixin, db.Model):
         base = 'https://www.gravatar.com/avatar/' + digest
         return base + '?' + urlencode({'d': default, 's': str(size)})
 
+    def follow(self, user):
+        if not self.is_following(user):
+            self.followed.append(user)
+            # Access 'followed' like a list
+
+    def unfollow(self, user):
+        if self.is_following(user):
+            self.followed.remove(user)
+
+    def is_following(self, user):
+        return self.followed.filter(
+            followers.c.followed_id == user.id).count() > 0  # \
+        # filter_by() can only check equality with a constant
+
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
