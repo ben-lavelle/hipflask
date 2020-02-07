@@ -61,6 +61,16 @@ class User(UserMixin, db.Model):
             followers.c.followed_id == user.id).count() > 0  # \
         # filter_by() can only check equality with a constant
 
+    def followed_posts(self):
+        from_self = Post.query.filter_by(user_id=self.id)
+        from_followed = Post.query.join(
+            followers, (followers.c.followed_id == Post.user_id)).filter(
+                followers.c.follower_id == self.id)  # \
+        # Join authors' followers onto posts on condition it's the current \
+        # user that is following them.
+        # Executing on Post table means subset of Post is returned.
+        return from_followed.union(from_self).order_by(Post.timestamp.desc())
+
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
