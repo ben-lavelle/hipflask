@@ -1,4 +1,5 @@
 venv*/*
+revenv*/*
 .vscode/*
 __pycache__
 .experiments
