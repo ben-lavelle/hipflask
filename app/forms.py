@@ -56,3 +56,9 @@ class EditProfileForm(FlaskForm):
             if user is not None:
                 raise ValidationError(
                     "That username is being used by someone else.")
+
+
+class PostForm(FlaskForm):
+    post = TextAreaField('Say something', validators=[
+        DataRequired(), Length(min=3, max=140)])
+    submit = SubmitField('Submit')
